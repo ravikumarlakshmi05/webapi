@@ -1,0 +1,117 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Data;
+using System.Data.SqlClient;
+using Newtonsoft.Json;
+
+namespace WebApplication2.Controllers
+{
+	public class ValuesController : ApiController
+	{
+		 static int check_op; 
+		// the static keyword can used to access a check_op value anywhere in this method & no need to create object
+		//creating a database connection to connect a database server
+
+		SqlConnection sqlcon = new SqlConnection(@"server=DESKTOP-M5H8C2U;database=bookstore1;Integrated Security=true;");
+		//feature we can add Routing to configure a ["api/get (method name)"]
+		// GET api/values
+		public string Get()
+		{
+			SqlDataAdapter sda=new SqlDataAdapter("select * from booklib",sqlcon);
+			DataTable dt = new DataTable(); // to store data grid format 
+			sda.Fill(dt);
+			if(dt.Rows.Count>0)
+            {
+				return JsonConvert.SerializeObject(dt); // here converting a json format for better view performance
+            }
+            else
+            {
+				return "Data not found"; // if it is fail error option will throws for better to indentity 
+            }
+			
+		}
+
+		// this mathod id used to get a data from perticular colunms and checking data enterd or not
+		// GET api/values/5
+	public string Get(int id)
+		{
+
+            // the dataadapter used to retirve(manipulate) a data from database 
+			SqlDataAdapter sda = new SqlDataAdapter("select * from booklib where id=" + id + "", sqlcon);
+			DataTable dt = new DataTable(); // to store data grid format 
+			sda.Fill(dt);
+			if (dt.Rows.Count > 0)
+			{
+				return JsonConvert.SerializeObject(dt); // here converting a json format for better view performance
+			}
+			else
+            {
+				return "no data found";
+            }
+			
+		}  
+
+		// POST api/values
+		public string Post([FromBody] string value)
+		{
+			// this mathod id used to insert a values in all colunms and checking data enterd or not
+			SqlCommand sqlcd = new SqlCommand("insert into booklib(bookname) values('"+value+"')",sqlcon);
+			sqlcon.Open();
+			 check_op = sqlcd.ExecuteNonQuery();
+			sqlcon.Close();
+			if (check_op==1)
+            {
+				return "Recored successfully inserted in booklib (bookname)"+value;
+            }
+            else
+            {
+				return "data not stored in database";
+            }
+			
+		}
+
+		// PUT api/values/5
+		public string Put(int id, [FromBody] string value)
+		{
+			// this mathod method's used to set a values in all colunms and checking data enterd or not
+			//here we are inserting a only one recored or changing name withrespect id. future need to create whole data insert query
+			
+			SqlCommand sqlcd = new SqlCommand(" update booklib set bookname=('"+ value + "')"+" where id=("+id+")", sqlcon);
+			sqlcon.Open(); // open a sql connection
+			 check_op = sqlcd.ExecuteNonQuery();
+			sqlcon.Close(); // closing sql connection
+			if (check_op==1)
+            {
+				return "data updated successfully"+value;
+            }
+            else
+            {
+				return "data not updated in database";
+            }
+			
+		}
+
+		// this method is used to delete a data in database with help of ID to indentity colunms 
+		// DELETE api/values/5
+		public string Delete(int id)
+		{
+			SqlCommand sqlcd = new SqlCommand(" delete booklib where id=('"+id+"')", sqlcon);
+			sqlcon.Open();
+			 check_op = sqlcd.ExecuteNonQuery();
+			sqlcon.Close();
+			if (check_op==1)
+            {
+				return "data delete succssfully in data base";
+            }
+            else
+            {
+				return "data is not delete in dayabase";
+            }
+			
+		}
+	}
+}

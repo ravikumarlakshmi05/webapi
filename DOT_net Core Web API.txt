@@ -1,0 +1,38 @@
+Rest services:
+
+1.entity framework.
+2.ADO.Net(OLD don't use)
+3.GET- need to get data from usig GET,
+4.Post-data need save from database,
+5.PUT- need edit a database or edit some info 
+6.delete-used to delete a delete method.
+7.routing method (Create URL method) and return method.
+8.CRUD- create , read , update, delete.
+9.secuirty purpose(private or given to authondication---user based to authorizied to allow a access).
+10.Test and Debug.
+11.postman to use debug application
+12.firefox  -- restclient
+13.Swagger --> it will create a document to create web document.
+14.unit testing --> mstest to use testing application.
+
+Environment setup:
+1. software tool.
+
+visual studio 2019 (community edition)
+
+1.SQL server
+
+microsoft sql server 2017 Express edition 2017.
+
+3.postmen
+
+prerequisite:
+1.C#
+2.SQL server(Basics).
+3.rest services.
+
+
+
+
+
+

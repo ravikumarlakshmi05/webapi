@@ -1,0 +1,10 @@
+DB=bookstore1
+table name-booklib
+
+
+
+use bookstore1;
+create table booklib(id int IDENTITY(1,1),bookname varchar(50),bookauthor varchar(50),bookcatagory varchar(50),bookrate int);
+select * from booklib;
+
+insert into booklib(bookname,bookauthor,bookcatagory,bookrate) values('timrtravle','richi','science',250);
